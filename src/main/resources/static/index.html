@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>The Grand - Hotel Booking System</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            color: #333;
+        }
+
+        /* Header with Logo */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            transition: all 0.3s ease;
+        }
+
+        .header.scrolled {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 10px 0;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 24px;
+            color: #000;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .hotel-name {
+            font-size: 28px;
+            font-weight: 700;
+            color: #d4af37;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* Parallax Hero Section */
+        .parallax-hero {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .parallax-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120vh;
+            background-image: url('https://images.pexels.com/photos/1134176/pexels-photo-1134176.jpeg?auto=compress&cs=tinysrgb&w=1920');
+            background-size: cover;
+            background-position: center;
+            transform: translateZ(0);
+            will-change: transform;
+        }
+
+        .parallax-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.6));
+        }
+
+        .hero-content {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: 64px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 20px rgba(0,0,0,0.5);
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-content .description {
+            font-size: 22px;
+            max-width: 700px;
+            margin-bottom: 50px;
+            line-height: 1.6;
+            text-shadow: 1px 1px 10px rgba(0,0,0,0.5);
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .btn {
+            padding: 18px 45px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.4s ease;
+            min-width: 160px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #000;
+            transform: translateY(-3px);
+        }
+
+        /* Content Section */
+        .content-section {
+            background: linear-gradient(to bottom, #f8f9fa, #ffffff);
+            padding: 100px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .features {
+            margin-top: 60px;
+        }
+
+        .features h3 {
+            font-size: 42px;
+            color: #1a1a1a;
+            margin-bottom: 60px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 35px;
+        }
+
+        .feature {
+            padding: 40px 30px;
+            background: white;
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #d4af37, #f4d03f);
+        }
+
+        .feature:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .feature h4 {
+            color: #1a1a1a;
+            margin-bottom: 15px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .feature p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .scroll-indicator {
+            display: none;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-content p {
+            color: #d4af37;
+            font-size: 16px;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 42px;
+            }
+
+            .hero-content .description {
+                font-size: 18px;
+            }
+
+            .hotel-name {
+                font-size: 22px;
+                letter-spacing: 2px;
+            }
+
+            .logo {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+
+            .features h3 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Header with Logo -->
+<div class="header" id="header">
+    <div class="header-content">
+        <div class="logo-container">
+            <div class="logo">G</div>
+            <div class="hotel-name">The Grand</div>
+        </div>
+    </div>
+</div>
+
+<!-- Parallax Hero Section -->
+<div class="parallax-hero">
+    <div class="parallax-bg" id="parallaxBg"></div>
+    <div class="parallax-overlay"></div>
+    <div class="hero-content">
+        <h1>Welcome to Luxury</h1>
+        <p class="description">
+            Book your perfect room with our easy-to-use hotel reservation system.
+            Whether you're planning a business trip or a relaxing vacation,
+            we have the right accommodation for you.
+        </p>
+        <div class="buttons">
+            <a href="login.html" class="btn btn-primary">Login</a>
+            <a href="signup.html" class="btn btn-secondary">Sign Up</a>
+        </div>
+    </div>
+    <div class="scroll-indicator"></div>
+</div>
+
+<!-- Content Section -->
+<div class="content-section">
+    <div class="container">
+        <div class="features">
+            <h3>Why Choose The Grand?</h3>
+            <div class="feature-list">
+                <div class="feature">
+                    <h4>Easy Booking</h4>
+                    <p>Simple and quick room reservation process with our intuitive booking system</p>
+                </div>
+                <div class="feature">
+                    <h4>Multiple Room Types</h4>
+                    <p>Standard, Deluxe, Suite, and Presidential options to suit every need</p>
+                </div>
+                <div class="feature">
+                    <h4>Secure System</h4>
+                    <p>Your bookings and personal data are safe with our encrypted platform</p>
+                </div>
+                <div class="feature">
+                    <h4>Manage Reservations</h4>
+                    <p>View and track all your bookings in one convenient dashboard</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+        <p>&copy; 2025 The Grand Hotel. All rights reserved.</p>
+    </div>
+</footer>
+
+<script>
+    // Parallax effect
+    window.addEventListener('scroll', function() {
+        const scrolled = window.pageYOffset;
+        const parallaxBg = document.getElementById('parallaxBg');
+        const header = document.getElementById('header');
+
+        // Parallax background movement
+        parallaxBg.style.transform = 'translateY(' + scrolled * 0.5 + 'px)';
+
+        // Header background change on scroll
+        if (scrolled > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+
+    // Check if user is already logged in
+    window.onload = function() {
+        const token = localStorage.getItem("jwt");
+        if (token) {
+            try {
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                const currentTime = Date.now() / 1000;
+
+                if (payload.exp > currentTime) {
+                    // Token is still valid, show option to continue
+                    if (confirm("You are already logged in. Go to your dashboard?")) {
+                        if (payload.role === 'ADMIN') {
+                            window.location.href = "admin.html";
+                        } else {
+                            window.location.href = "booking.html";
+                        }
+                    }
+                } else {
+                    // Token expired, clear it
+                    localStorage.removeItem("jwt");
+                    localStorage.removeItem("userEmail");
+                }
+            } catch (e) {
+                // Invalid token, clear it
+                localStorage.removeItem("jwt");
+                localStorage.removeItem("userEmail");
+            }
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - The Grand</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=2070');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.4);
+            z-index: 0;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.5), rgba(59, 130, 246, 0.5));
+            z-index: 1;
+        }
+
+        .payment-container {
+            position: relative;
+            z-index: 2;
+            width: 90%;
+            max-width: 450px;
+            padding: 20px;
+        }
+
+        .payment-box {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 50px 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 100px rgba(124, 58, 237, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .logo h1 {
+            font-size: 32px;
+            background: linear-gradient(135deg, #7c3aed, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .logo p {
+            color: #64748b;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+            color: #1e293b;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1);
+            transform: translateY(-2px);
+        }
+
+        input::placeholder {
+            color: #94a3b8;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .pay-button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #7c3aed, #3b82f6);
+            border: none;
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pay-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .pay-button:hover::before {
+            left: 100%;
+        }
+
+        .pay-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(124, 58, 237, 0.4);
+        }
+
+        .pay-button:active {
+            transform: translateY(0);
+        }
+
+        .security-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .security-badge svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .card-icons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 24px;
+            opacity: 0.6;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 28px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            color: #64748b;
+        }
+
+        .payment-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px 20px;
+            background: #f1f5f9;
+            border: 2px solid #e2e8f0;
+            color: #64748b;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #7c3aed, #3b82f6);
+            color: white;
+            border-color: #7c3aed;
+        }
+
+        .payment-method {
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .upi-info {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .upi-info p {
+            color: #0369a1;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        @media (max-width: 480px) {
+            .payment-box {
+                padding: 40px 30px;
+            }
+
+            .row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="background-image"></div>
+<div class="overlay"></div>
+
+<div class="payment-container">
+    <div class="payment-box">
+        <div class="logo">
+            <h1>The Grand</h1>
+            <p>Secure Payment Gateway</p>
+        </div>
+
+        <div class="payment-tabs">
+            <button type="button" class="tab-btn active" data-tab="card">Card Payment</button>
+            <button type="button" class="tab-btn" data-tab="upi">UPI Payment</button>
+        </div>
+
+        <form id="paymentForm">
+            <div id="cardPayment" class="payment-method">
+                <div class="form-group">
+                    <label for="cardNumber">Card Number</label>
+                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                </div>
+
+                <div class="form-group">
+                    <label for="cardName">Cardholder Name</label>
+                    <input type="text" id="cardName" placeholder="John Doe">
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label for="expiry">Expiry Date</label>
+                        <input type="text" id="expiry" placeholder="MM/YY" maxlength="5">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <input type="password" id="cvv" placeholder="123" maxlength="3">
+                    </div>
+                </div>
+            </div>
+
+            <div id="upiPayment" class="payment-method" style="display: none;">
+                <div class="form-group">
+                    <label for="upiId">UPI ID</label>
+                    <input type="text" id="upiId" placeholder="username@upi">
+                </div>
+
+                <div class="upi-info">
+                    <p>Enter your UPI ID to complete the payment</p>
+                </div>
+            </div>
+
+            <button type="submit" class="pay-button">Complete Payment</button>
+        </form>
+
+        <div class="security-badge">
+            <svg fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </svg>
+            Secured with 256-bit SSL encryption
+        </div>
+
+        <div class="card-icons">
+            <div class="card-icon">VISA</div>
+            <div class="card-icon">MC</div>
+            <div class="card-icon">AMEX</div>
+            <div class="card-icon">DISC</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const cardNumberInput = document.getElementById('cardNumber');
+    const expiryInput = document.getElementById('expiry');
+    const cvvInput = document.getElementById('cvv');
+    const upiIdInput = document.getElementById('upiId');
+    const paymentForm = document.getElementById('paymentForm');
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const cardPayment = document.getElementById('cardPayment');
+    const upiPayment = document.getElementById('upiPayment');
+
+    let activePaymentMethod = 'card';
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            tabBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+
+            activePaymentMethod = this.dataset.tab;
+
+            if (activePaymentMethod === 'card') {
+                cardPayment.style.display = 'block';
+                upiPayment.style.display = 'none';
+            } else {
+                cardPayment.style.display = 'none';
+                upiPayment.style.display = 'block';
+            }
+        });
+    });
+
+    cardNumberInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\s/g, '');
+        let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+        e.target.value = formattedValue;
+    });
+
+    expiryInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length >= 2) {
+            value = value.slice(0, 2) + '/' + value.slice(2, 4);
+        }
+        e.target.value = value;
+    });
+
+    cvvInput.addEventListener('input', function(e) {
+        e.target.value = e.target.value.replace(/\D/g, '');
+    });
+
+    upiIdInput.addEventListener('input', function(e) {
+        e.target.value = e.target.value.toLowerCase();
+    });
+
+    paymentForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        if (activePaymentMethod === 'card') {
+            if (!cardNumberInput.value || !expiryInput.value || !cvvInput.value || !document.getElementById('cardName').value) {
+                alert('Please fill in all card details');
+                return;
+            }
+        } else {
+            if (!upiIdInput.value) {
+                alert('Please enter your UPI ID');
+                return;
+            }
+            if (!upiIdInput.value.includes('@')) {
+                alert('Please enter a valid UPI ID (e.g., username@upi)');
+                return;
+            }
+        }
+
+        makePayment();
+    });
+
+    async function makePayment() {
+        const pendingBooking = localStorage.getItem("pendingBooking");
+        if (!pendingBooking) {
+            alert("No booking data found");
+            window.location.href = "booking.html";
+            return;
+        }
+        const bookingData = JSON.parse(pendingBooking);
+        const token = localStorage.getItem("jwt");
+        try {
+            const response = await fetch("/booking", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
+                },
+                body: JSON.stringify(bookingData)
+            });
+            const result = await response.text();
+            if (response.ok) {
+                alert("Payment successful! Booking confirmed.");
+                localStorage.removeItem("pendingBooking");
+                window.location.href = "booking.html";
+            } else {
+                alert("Booking failed: " + result);
+            }
+        } catch (error) {
+            alert("Payment error: " + error.message);
+        }
+    }
+</script>
+</body>
+</html>

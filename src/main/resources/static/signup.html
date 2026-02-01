@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>The Grand - Signup</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url('https://images.pexels.com/photos/271639/pexels-photo-271639.jpeg?auto=compress&cs=tinysrgb&w=1920');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 15px 0;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+
+        .logo {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 22px;
+            color: #000;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .hotel-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #d4af37;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .container {
+            position: relative;
+            z-index: 100;
+            max-width: 450px;
+            width: 90%;
+            margin: 100px auto 50px;
+            padding: 50px 40px;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            text-align: center;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 15px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #d4af37;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+        }
+
+        .form-group select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 18px center;
+            padding-right: 45px;
+        }
+
+        .role-info {
+            font-size: 12px;
+            color: #666;
+            margin-top: 8px;
+            line-height: 1.5;
+            padding: 12px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            border-left: 3px solid #d4af37;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(212, 175, 55, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .link {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .link p {
+            margin: 12px 0;
+        }
+
+        .link a {
+            color: #d4af37;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .link a:hover {
+            color: #b8941f;
+            text-decoration: underline;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            color: #999;
+            font-size: 13px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #ddd;
+        }
+
+        .divider::before {
+            margin-right: 15px;
+        }
+
+        .divider::after {
+            margin-left: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 30px;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+
+            .header-content {
+                padding: 0 20px;
+            }
+
+            .hotel-name {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Header with Logo -->
+<div class="header">
+    <div class="header-content">
+        <a href="index.html" class="logo-container">
+            <div class="logo">G</div>
+            <div class="hotel-name">The Grand</div>
+        </a>
+    </div>
+</div>
+
+<div class="container">
+    <h2>Create Account</h2>
+    <p class="subtitle">Join us for exclusive booking privileges</p>
+
+    <form id="signupForm">
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" required placeholder="Enter your full name">
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" required placeholder="Enter your email (e.g., name@gmail.com)">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" required placeholder="Min 7 characters with 1 special character" minlength="7">
+            <div class="role-info" style="margin-top: 8px;">
+                Password must be at least 7 characters with at least one special character (!@#$%^&*)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="role">Account Type</label>
+            <select id="role" required>
+                <option value="USER">Customer Account</option>
+                <option value="ADMIN">Administrator Account</option>
+            </select>
+            <div class="role-info">
+                <strong>Customer:</strong> Book rooms and manage your reservations<br>
+                <strong>Administrator:</strong> Manage all bookings and hotel inventory
+            </div>
+        </div>
+
+        <button type="submit">Create Account</button>
+    </form>
+
+    <div class="divider">OR</div>
+
+    <div class="link">
+        <p><a href="login.html">Already have an account? Sign In</a></p>
+        <p><a href="index.html">Back to Home</a></p>
+    </div>
+</div>
+
+<script>
+    document.getElementById("signupForm").onsubmit = async (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+        const role = document.getElementById("role").value;
+
+        // Validate name
+        if (name.length < 2) {
+            alert("Please enter a valid name (at least 2 characters)");
+            return;
+        }
+
+        // Validate email format (must end with gmail.com)
+        const emailRegex = /^[a-zA-Z0-9._-]+@gmail\.com$/;
+        if (!emailRegex.test(email)) {
+            alert("Please enter a valid Gmail address (e.g., yourname@gmail.com)");
+            return;
+        }
+
+        // Validate password (at least 7 characters with at least one special character)
+        if (password.length < 7) {
+            alert("Password must be at least 7 characters long");
+            return;
+        }
+
+        const specialCharRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+        if (!specialCharRegex.test(password)) {
+            alert("Password must contain at least one special character (!@#$%^&* etc.)");
+            return;
+        }
+
+        try {
+            const response = await fetch("/auth/signup", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                    role: role
+                })
+            });
+
+            const result = await response.text();
+
+            if (response.ok) {
+                alert("Account created successfully!\nWelcome, " + name + "!\n" + result + "\n\nYou can now sign in.");
+                window.location.href = "login.html";
+            } else {
+                alert("Signup failed: " + result);
+            }
+        } catch (error) {
+            alert("Network error during signup: " + error.message);
+            console.error("Signup error:", error);
+        }
+    }
+</script>
+</body>
+</html>
+
+

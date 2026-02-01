@@ -1,0 +1,938 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>The Grand - Book Room</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            background: #f5f5f5;
+        }
+
+        /* Full Screen Parallax Hero Section */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .parallax-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.pexels.com/photos/261108/pexels-photo-261108.jpeg?auto=compress&cs=tinysrgb&w=1920');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            transform: translateZ(0);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(212, 175, 55, 0.3));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: #1a1a1a;
+            padding: 0 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 64px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+            color: #1a1a1a;
+        }
+
+        .hero-content p {
+            font-size: 24px;
+            letter-spacing: 2px;
+            color: #333;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator::before {
+            content: '';
+            font-size: 32px;
+            color: #d4af37;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        /* Fixed Header */
+        .top-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 0;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 22px;
+            color: #000;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .hotel-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #d4af37;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-badge {
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .logout-btn {
+            background-color: #dc3545;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .logout-btn:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+        }
+        .delete-btn {
+        margin-top: 20px;
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .delete-btn:hover {
+        background: #c82333;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+    }
+
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 40px;
+            background: #f5f5f5;
+        }
+
+        .section {
+            background: white;
+            padding: 40px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .section h2 {
+            color: #1a1a1a;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #d4af37;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #d4af37;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+        }
+
+        .room-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .room-type-card {
+            padding: 25px;
+            border: 3px solid #e0e0e0;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+        .room-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+}
+
+.room-type-card:hover .room-image {
+    transform: scale(1.05);
+}
+
+.room-type-card.selected .room-image {
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.5);
+}
+        .room-type-card:hover {
+            border-color: #d4af37;
+            background-color: #fff;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.2);
+        }
+
+        .room-type-card.selected {
+            border-color: #d4af37;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(244, 208, 63, 0.15));
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .room-type-card h4 {
+            color: #1a1a1a;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .room-type-card p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(212, 175, 55, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Bookings List */
+        .booking-card {
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            color: #000;
+            padding: 30px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .booking-card h4 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 22px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .booking-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        .booking-detail {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.4);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .booking-detail strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 12px;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .booking-detail span {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .no-bookings {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 50px;
+            background: #fafafa;
+            border-radius: 15px;
+            font-size: 16px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+            font-size: 16px;
+        }
+
+        .error-message {
+            background: #ffe6e6;
+            color: #721c24;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #dc3545;
+            font-weight: 500;
+        }
+
+        .success-message {
+            background: #e6ffe6;
+            color: #155724;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #28a745;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 36px;
+                letter-spacing: 3px;
+            }
+
+            .hero-content p {
+                font-size: 18px;
+            }
+
+            .form-row, .booking-details {
+                grid-template-columns: 1fr;
+            }
+
+            .main-content {
+                padding: 30px 20px;
+            }
+
+            .section {
+                padding: 25px;
+            }
+
+            .header-content {
+                padding: 0 20px;
+            }
+
+            .hotel-name {
+                font-size: 18px;
+            }
+
+            .user-section {
+                gap: 10px;
+            }
+
+            .room-types {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Fixed Header -->
+<div class="top-header">
+    <div class="header-content">
+        <div class="logo-section">
+            <div class="logo">G</div>
+            <div class="hotel-name">The Grand</div>
+        </div>
+        <div class="user-section">
+            <span class="user-badge">Customer</span>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+</div>
+
+<!-- Full Screen Hero Section with Parallax -->
+<div class="hero-section">
+    <div class="parallax-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1>Book Your Room</h1>
+        <p>Experience luxury and comfort at The Grand</p>
+    </div>
+    <div class="scroll-indicator"></div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <div class="section">
+        <h2>Make a New Reservation</h2>
+        <form id="bookingForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="checkIn">Check-in Date:</label>
+                    <input type="date" id="checkIn" required>
+                </div>
+                <div class="form-group">
+                    <label for="checkOut">Check-out Date:</label>
+                    <input type="date" id="checkOut" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Select Room Type:</label>
+                <div class="room-types" id="roomTypes">
+                    <div class="room-type-card" data-value="Standard">
+                        <img src="https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Standard Room" class="room-image">
+                        <h4>Standard Room</h4>
+                        <p>Comfortable and affordable</p>
+                    </div>
+                    <div class="room-type-card" data-value="Deluxe">
+                        <img src="https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Deluxe Room" class="room-image">
+                        <h4>Deluxe Room</h4>
+                        <p>Spacious with premium amenities</p>
+                    </div>
+                    <div class="room-type-card" data-value="Suite">
+                        <img src="https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Suite" class="room-image">
+                        <h4>Suite</h4>
+                        <p>Luxury suite with separate living area</p>
+                    </div>
+                    <div class="room-type-card" data-value="Presidential">
+                        <img src="https://images.pexels.com/photos/1648776/pexels-photo-1648776.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Presidential Suite" class="room-image">
+                        <h4>Presidential Suite</h4>
+                        <p>Ultimate luxury experience</p>
+                    </div>
+                </div>
+                <input type="hidden" id="roomType" required>
+            </div>
+
+            <div id="messageContainer"></div>
+            <button type="submit" class="submit-btn" id="submitBtn">Book Room</button>
+        </form>
+    </div>
+
+    <div class="section">
+        <h2>My Reservations</h2>
+        <div id="loadingBookings" class="loading">Loading your bookings...</div>
+        <div id="bookingsList">
+            <!-- User bookings will be loaded here -->
+        </div>
+    </div>
+</div>
+
+<script>
+    let selectedRoomType = '';
+
+    // Authentication check
+    function checkUserAuth() {
+        const token = localStorage.getItem("jwt");
+        if (!token) {
+            alert("Please login first");
+            window.location.href = "login.html";
+            return false;
+        }
+
+        try {
+            const payload = JSON.parse(atob(token.split('.')[1]));
+
+            // Check if token is expired
+            const currentTime = Date.now() / 1000;
+            if (payload.exp <= currentTime) {
+                alert("Your session has expired. Please login again.");
+                localStorage.removeItem("jwt");
+                localStorage.removeItem("userEmail");
+                window.location.href = "login.html";
+                return false;
+            }
+
+            return true;
+        } catch (error) {
+            console.error("Token validation error:", error);
+            alert("Invalid session. Please login again.");
+            localStorage.removeItem("jwt");
+            localStorage.removeItem("userEmail");
+            window.location.href = "login.html";
+            return false;
+        }
+    }
+
+    // Initialize page
+    window.onload = function() {
+        if (checkUserAuth()) {
+            setupDateValidation();
+            setupRoomTypeSelection();
+            loadMyBookings();
+        }
+    };
+
+    // Setup date validation
+    function setupDateValidation() {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('checkIn').min = today;
+        document.getElementById('checkOut').min = today;
+
+        // Update checkout min date when checkin changes
+        document.getElementById('checkIn').onchange = function() {
+            const checkInDate = this.value;
+            document.getElementById('checkOut').min = checkInDate;
+
+            // Clear checkout if it's before new checkin
+            const checkOutDate = document.getElementById('checkOut').value;
+            if (checkOutDate && checkOutDate <= checkInDate) {
+                document.getElementById('checkOut').value = '';
+            }
+        }
+    }
+
+    // Setup room type selection
+    function setupRoomTypeSelection() {
+        const roomTypeCards = document.querySelectorAll('.room-type-card');
+
+        roomTypeCards.forEach(card => {
+            card.addEventListener('click', function() {
+                // Remove selected class from all cards
+                roomTypeCards.forEach(c => c.classList.remove('selected'));
+
+                // Add selected class to clicked card
+                this.classList.add('selected');
+
+                // Set the hidden input value
+                selectedRoomType = this.dataset.value;
+                document.getElementById('roomType').value = selectedRoomType;
+            });
+        });
+    }
+
+    // Handle booking form submission
+    document.getElementById("bookingForm").onsubmit = async (e) => {
+        e.preventDefault();
+
+        const checkIn = document.getElementById("checkIn").value;
+        const checkOut = document.getElementById("checkOut").value;
+        const roomType = document.getElementById("roomType").value;
+        const submitBtn = document.getElementById("submitBtn");
+        const messageContainer = document.getElementById("messageContainer");
+
+        // Clear previous messages
+        messageContainer.innerHTML = '';
+
+        // Validation
+        if (!checkIn || !checkOut) {
+            showMessage("Please select both check-in and check-out dates.", "error");
+            return;
+        }
+
+        if (new Date(checkOut) <= new Date(checkIn)) {
+            showMessage("Check-out date must be after check-in date.", "error");
+            return;
+        }
+
+        if (!roomType) {
+            showMessage("Please select a room type.", "error");
+            return;
+        }
+
+        // Show loading state
+        submitBtn.textContent = "Booking...";
+        submitBtn.disabled = true;
+
+<!--        try {-->
+<!--            const token = localStorage.getItem("jwt");-->
+<!--            const response = await fetch("/booking", {-->
+<!--                method: "POST",-->
+<!--                headers: {-->
+<!--                    "Content-Type": "application/json",-->
+<!--                    "Authorization": "Bearer " + token-->
+<!--                },-->
+<!--                body: JSON.stringify({-->
+<!--                    checkInDate: checkIn,-->
+<!--                    checkOutDate: checkOut,-->
+<!--                    roomType: roomType-->
+<!--                })-->
+<!--            });-->
+
+<!--            const result = await response.text();-->
+
+<!--            if (response.ok) {-->
+<!--                showMessage("Room booked successfully! " + result, "success");-->
+
+<!--                // Reset form-->
+<!--                document.getElementById("bookingForm").reset();-->
+<!--                document.getElementById("roomType").value = '';-->
+<!--                selectedRoomType = '';-->
+<!--                document.querySelectorAll('.room-type-card').forEach(c => c.classList.remove('selected'));-->
+
+<!--                // Refresh bookings list-->
+<!--                setTimeout(() => {-->
+<!--                    loadMyBookings();-->
+<!--                }, 1000);-->
+<!--            } else {-->
+<!--                showMessage("Booking failed: " + result, "error");-->
+<!--            }-->
+<!--        } catch (error) {-->
+<!--            showMessage("Network error during booking: " + error.message, "error");-->
+<!--            console.error("Booking error:", error);-->
+<!--        } finally {-->
+<!--            // Reset button state-->
+<!--            submitBtn.textContent = "Book Room";-->
+<!--            submitBtn.disabled = false;-->
+<!--        }-->
+
+            try {
+    // Save booking data temporarily
+    localStorage.setItem("pendingBooking", JSON.stringify({
+        checkInDate: checkIn,
+        checkOutDate: checkOut,
+        roomType: roomType
+    }));
+
+    // Go to payment page
+    window.location.href = "payment.html";
+    return;
+
+} catch (error) {
+    showMessage("Error preparing payment: " + error.message, "error");
+    console.error("Booking redirect error:", error);
+} finally {
+    submitBtn.textContent = "Proceed to Payment";
+    submitBtn.disabled = false;
+}
+
+    }
+
+    // Show message function
+    function showMessage(message, type) {
+        const messageContainer = document.getElementById("messageContainer");
+        const messageClass = type === "success" ? "success-message" : "error-message";
+
+        messageContainer.innerHTML = `
+            <div class="${messageClass}">
+                ${message}
+            </div>
+        `;
+
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+            messageContainer.innerHTML = '';
+        }, 5000);
+    }
+
+    // Load user's bookings
+    async function loadMyBookings() {
+        const token = localStorage.getItem("jwt");
+        const loadingElement = document.getElementById('loadingBookings');
+        const bookingsContainer = document.getElementById('bookingsList');
+
+        loadingElement.style.display = 'block';
+
+        try {
+            const response = await fetch("/booking/my-bookings", {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + token,
+                    "Content-Type": "application/json"
+                }
+            });
+
+            loadingElement.style.display = 'none';
+
+            if (response.ok) {
+                const bookings = await response.json();
+                displayMyBookings(bookings);
+            } else {
+                const errorText = await response.text();
+                bookingsContainer.innerHTML = `
+                    <div class="error-message">
+                        Failed to load bookings: ${errorText}
+                    </div>
+                `;
+            }
+        } catch (error) {
+            loadingElement.style.display = 'none';
+            console.error("Error loading bookings:", error);
+            bookingsContainer.innerHTML = `
+                <div class="error-message">
+                    Network error loading bookings: ${error.message}
+                </div>
+            `;
+        }
+    }
+
+
+    async function deleteBooking(bookingId) {
+    if (!confirm("Are you sure you want to cancel this booking?")) {
+        return;
+    }
+
+    const token = localStorage.getItem("jwt");
+
+    try {
+        const response = await fetch("/booking/" + bookingId, {
+            method: "DELETE",
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        const result = await response.text();
+
+        if (response.ok) {
+            alert("Booking cancelled successfully");
+
+            // Remove card from UI
+            const card = document.getElementById("booking-" + bookingId);
+            if (card) {
+                card.remove();
+            }
+
+            // If no bookings left, reload list
+            if (document.getElementById("bookingsList").children.length === 0) {
+                loadMyBookings();
+            }
+        } else {
+            alert("Failed to cancel booking: " + result);
+        }
+    } catch (error) {
+        console.error("Delete error:", error);
+        alert("Network error while deleting booking");
+    }
+}
+
+
+    // Display user's bookings
+    function displayMyBookings(bookings) {
+    const bookingsContainer = document.getElementById('bookingsList');
+
+    if (bookings.length === 0) {
+        bookingsContainer.innerHTML = `
+            <div class="no-bookings">
+                No reservations found. Book your first room above!
+            </div>
+        `;
+        return;
+    }
+
+    bookingsContainer.innerHTML = '';
+
+    bookings.forEach(booking => {
+        const bookingCard = document.createElement('div');
+        bookingCard.className = 'booking-card';
+        bookingCard.id = "booking-" + booking.id;
+
+        const checkInDate = formatDate(booking.checkInDate);
+        const checkOutDate = formatDate(booking.checkOutDate);
+
+        const checkIn = new Date(booking.checkInDate);
+        const checkOut = new Date(booking.checkOutDate);
+        const duration = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
+
+        bookingCard.innerHTML = `
+            <h4>${booking.roomType} Room</h4>
+            <div class="booking-details">
+                <div class="booking-detail">
+                    <strong>Check-in</strong>
+                    <span>${checkInDate}</span>
+                </div>
+                <div class="booking-detail">
+                    <strong>Check-out</strong>
+                    <span>${checkOutDate}</span>
+                </div>
+                <div class="booking-detail">
+                    <strong>Duration</strong>
+                    <span>${duration} night${duration !== 1 ? 's' : ''}</span>
+                </div>
+            </div>
+
+            <button class="delete-btn" onclick="deleteBooking(${booking.id})">
+                Cancel Booking
+            </button>
+        `;
+
+        bookingsContainer.appendChild(bookingCard);
+    });
+}
+
+
+    // Format date for display
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+            weekday: 'short',
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        });
+    }
+
+    // Logout function
+    function logout() {
+        if (confirm("Are you sure you want to logout?")) {
+            localStorage.removeItem("jwt");
+            localStorage.removeItem("userEmail");
+            alert("Logged out successfully");
+            window.location.href = "login.html";
+        }
+    }
+
+    // Parallax effect
+    window.addEventListener('scroll', function() {
+        const parallax = document.querySelector('.parallax-bg');
+        let scrollPosition = window.pageYOffset;
+        parallax.style.transform = 'translateY(' + scrollPosition * 0.5 + 'px)';
+    });
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
