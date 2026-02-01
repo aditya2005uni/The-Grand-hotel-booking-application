@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: hotel-booking-api
+    env: java
+    buildCommand: ./mvnw clean install -DskipTests
+    startCommand: java -jar target/hotel_booking_system-0.0.1-SNAPSHOT.jar
